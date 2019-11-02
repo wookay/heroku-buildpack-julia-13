@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+# fail fast
+set -e
+
+# debug
+# set -x
+
+shopt -s extglob
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+
+# parse and derive params
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+BIN_PATH="$BUILD_DIR/bin"
+TMP_PATH="$BUILD_DIR/tmp"
+mkdir -p $CACHE_DIR $BIN_PATH $TMP_PATH
+
+JULIA_VERSION="julia-1.3.0-rc4"
+
+JULIA_URL="https://julialang-s3.julialang.org/bin/linux/x64/1.3/$JULIA_VERSION-linux-x86_64.tar.gz"
+JULIA_BINARIES="$CACHE_DIR/${JULIA_VERSION}.tar.gz"
+JULIA_PATH="$TMP_PATH/julia"
+
+if [ -f $JULIA_BINARIES ]; then
+  echo "Using Julia binaries from cache"
+else
+  echo "Downloading binaries ($JULIA_URL)"
+  curl -L $JULIA_URL -o $JULIA_BINARIES 
+fi
+
+echo "Unpacking binaries"
+mkdir -p $BUILD_DIR/$JULIA_VERSION && tar xzf $JULIA_BINARIES -C $BUILD_DIR/$JULIA_VERSION --strip-components=1
+
+echo "Creating runtime environment"
+mkdir -p $BUILD_DIR/.profile.d
+echo "export PATH=\$HOME/\$JULIA_VERSION/bin:\$PATH" >> $BUILD_DIR/.profile.d/julia_paths.sh
+
+export PATH=$BUILD_DIR/.heroku/vendor/bin:$PATH
+
+echo "Installing packages"
+cd $BUILD_DIR
+$JULIA_VERSION/bin/julia package.jl
+
+mv ~/.julia ./
+
+echo "Julia successfully installed"
