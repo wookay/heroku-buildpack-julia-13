@@ -2,7 +2,7 @@
 
 This is a Heroku buildpack for adding a [Julia binary][1] to your environment.
 
-## Versions
+## Version
 
 * Julia: `v1.3.0-rc4`
 
@@ -22,7 +22,12 @@ using Pkg; pkg"add Bukdu"
 using Bukdu
 ```
 
+## Examples
+ * https://github.com/wookay/starter-snake-julia
 
-* the original code from https://github.com/pinx/heroku-buildpack-julia
+
+----
+
+* the original code of heroku buildpack takes from https://github.com/pinx/heroku-buildpack-julia
 
 [1]: https://julialang.org
