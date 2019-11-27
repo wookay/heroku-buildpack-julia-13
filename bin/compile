@@ -26,7 +26,7 @@ BIN_PATH="$BUILD_DIR/bin"
 TMP_PATH="$BUILD_DIR/tmp"
 mkdir -p $CACHE_DIR $BIN_PATH $TMP_PATH
 
-JULIA_VERSION="julia-1.3.0-rc4"
+JULIA_VERSION="julia-1.3.0"
 
 JULIA_URL="https://julialang-s3.julialang.org/bin/linux/x64/1.3/$JULIA_VERSION-linux-x86_64.tar.gz"
 JULIA_BINARIES="$CACHE_DIR/${JULIA_VERSION}.tar.gz"

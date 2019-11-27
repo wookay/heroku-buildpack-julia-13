@@ -1,10 +1,10 @@
-# Julia v1.3.0-rc4 buildpack for Heroku
+# Julia v1.3.0 buildpack for Heroku
 
 This is a Heroku buildpack for adding a [Julia binary][1] to your environment.
 
 ## Version
 
-* Julia: `v1.3.0-rc4`
+* Julia: `v1.3.0`
 
 ## Usage
 
